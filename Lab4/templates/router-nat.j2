@@ -1,0 +1,10 @@
+{% for acl in access_list %}
+access-list 1 permit {{ acl.network }} {{ acl.wc_mask }}
+{% endfor %}
+ip nat inside source list 1 interface {{ nat_interface }} vrf control-data overload
+{% for intf in inside_interfaces %}
+interface {{ intf }}
+ ip nat inside
+{% endfor %}
+interface {{ nat_interface }}
+ ip nat outside
